@@ -130,6 +130,8 @@ const Register = () => {
               className="input input-bordered w-full max-w-xs"
               {...register("imei", {
                 required: true,
+                minLength: 15,
+                maxLength: 15,
               })}
             />
 
