@@ -2,8 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import EditModal from "../components/EditModal";
 
+import { useAuthContext } from "../hooks/useAuthContext";
+
 const Ownership = () => {
   const [owners, setOwners] = useState();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
@@ -41,7 +44,7 @@ const Ownership = () => {
               <th>Model</th>
               <th>IMEI</th>
               <th>Registeration Date</th>
-              <th></th>
+              {user && <th></th>}
             </tr>
           </thead>
           <tbody>
@@ -57,7 +60,7 @@ const Ownership = () => {
               <th></th>
               <th></th>
               <th></th>
-              <th></th>
+              {user && <th></th>}
             </tr>
           </tfoot>
         </table>
@@ -67,6 +70,7 @@ const Ownership = () => {
 };
 
 function Details({ detail }) {
+  const { user } = useAuthContext();
   const { id, name, cnic, model, imei, created } = detail;
 
   return (
@@ -78,9 +82,11 @@ function Details({ detail }) {
       <td>{imei}</td>
       <td>{created}</td>
 
-      <td>
-        <EditModal key={id} detail={detail} />
-      </td>
+      {user && (
+        <td>
+          <EditModal key={id} detail={detail} />
+        </td>
+      )}
 
       {/* <td>
         <button className="btn btn-active btn-ghost">Delete</button>

@@ -1,7 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Home = () => {
+  const { user } = useAuthContext();
+
   return (
     <>
       <div className="flex flex-col md:flex-row justify-center items-center gap-10 md:gap-20 mt-20 md:mt-36 w-screen">
@@ -15,9 +18,11 @@ const Home = () => {
 
           {/* register */}
           <div>
-            <Link to="/register" className="btn btn-md">
-              Register
-            </Link>
+            {user && (
+              <Link to="/register" className="btn btn-md">
+                Register
+              </Link>
+            )}
           </div>
         </div>
 
@@ -31,9 +36,11 @@ const Home = () => {
 
           {/* report */}
           <div>
-            <Link to="/report" className="btn btn-md">
-              Report
-            </Link>
+            {user && (
+              <Link to="/report" className="btn btn-md">
+                Report
+              </Link>
+            )}
           </div>
         </div>
       </div>

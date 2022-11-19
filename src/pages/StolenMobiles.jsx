@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Ownership = () => {
   const [stolen, setStolen] = useState();
+  const { user } = useAuthContext();
 
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
@@ -42,8 +44,8 @@ const Ownership = () => {
                 <th>Model</th>
                 <th>IMEI</th>
                 <th>Reported On</th>
-                <th></th>
-                <th></th>
+                {user && <th></th>}
+                {user && <th></th>}
               </tr>
             </thead>
             <tbody>
@@ -59,8 +61,8 @@ const Ownership = () => {
                 <th></th>
                 <th></th>
                 <th></th>
-                <th></th>
-                <th></th>
+                {user && <th></th>}
+                {user && <th></th>}
               </tr>
             </tfoot>
           </table>
@@ -71,6 +73,7 @@ const Ownership = () => {
 };
 
 function Details({ detail }) {
+  const { user } = useAuthContext();
   const { id, name, cnic, model, imei, created } = detail;
   const navigate = useNavigate();
 
@@ -95,17 +98,23 @@ function Details({ detail }) {
       <td>{model}</td>
       <td>{imei}</td>
       <td>{created}</td>
-      <td>
-        <button className="btn btn-ghost p-2 border-none">
-          <ion-icon name="create" size="large"></ion-icon>
-        </button>
-      </td>
-
-      <td>
-        <button className="btn btn-ghost p-2" onClick={() => removeRecord(id)}>
-          <ion-icon name="close-circle" size="large"></ion-icon>
-        </button>
-      </td>
+      {user && (
+        <td>
+          <button className="btn btn-ghost p-2 border-none">
+            <ion-icon name="create" size="large"></ion-icon>
+          </button>
+        </td>
+      )}
+      {user && (
+        <td>
+          <button
+            className="btn btn-ghost p-2"
+            onClick={() => removeRecord(id)}
+          >
+            <ion-icon name="close-circle" size="large"></ion-icon>
+          </button>
+        </td>
+      )}
     </tr>
   );
 }
