@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Ownership = () => {
   const [stolen, setStolen] = useState();
@@ -29,46 +30,62 @@ const Ownership = () => {
   }, []);
 
   return (
-    <div className="flex flex-row justify-center items-center py-20 w-full">
-      <div className="overflow-x-auto">
-        <table className="table w-full">
-          <thead>
-            <tr>
-              <th></th>
-              <th>Name</th>
-              <th>CNIC</th>
-              <th>Model</th>
-              <th>IMEI</th>
-              <th>Reported On</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {stolen?.map((detail) => (
-              <Details key={detail.id} detail={detail} />
-            ))}
-          </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-            </tr>
-          </tfoot>
-        </table>
+    <>
+      <div className="flex flex-row justify-center items-center py-20 w-full">
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>CNIC</th>
+                <th>Model</th>
+                <th>IMEI</th>
+                <th>Reported On</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {stolen?.map((detail) => (
+                <Details key={detail.id} detail={detail} />
+              ))}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 function Details({ detail }) {
-  const { name, cnic, model, imei, created } = detail;
+  const { id, name, cnic, model, imei, created } = detail;
+  const navigate = useNavigate();
+
+  // Delete Data
+  const removeRecord = async (id) => {
+    try {
+      await axios.delete(
+        `http://127.0.0.1:8090/api/collections/stolen/records/${id}`
+      );
+      console.log("Item successfully deleted.");
+      navigate(0);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <tr>
@@ -83,7 +100,12 @@ function Details({ detail }) {
       </td>
 
       <td>
-        <button className="btn btn-active btn-ghost">Delete</button>
+        <button
+          className="btn btn-active btn-ghost"
+          onClick={() => removeRecord(id)}
+        >
+          Delete
+        </button>
       </td>
     </tr>
   );
