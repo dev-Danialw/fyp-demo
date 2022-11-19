@@ -9,7 +9,7 @@ const Register = () => {
   } = useForm({
     defaultValues: {
       name: "",
-      cninc: "",
+      cnic: "",
       model: "",
       imei: "",
     },
