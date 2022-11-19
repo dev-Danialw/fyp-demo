@@ -1,41 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 
 const Ownership = () => {
-  const [owner, setOwner] = useState([
-    {
-      id: 1,
-      name: "Adan Ali",
-      cnic: "1310298765432",
-      model: "Samsung A7",
-      imei: "123456789987654",
-    },
-    {
-      id: 2,
-      name: "Jawad Khan",
-      cnic: "1310298765432",
-      model: "iPhone 12",
-      imei: "123456789987652",
-    },
-    {
-      id: 3,
-      name: "Mukhtaara",
-      cnic: "1310298765432",
-      model: "Motrolla G3",
-      imei: "123456789987651",
-    },
-    {
-      id: 4,
-      name: "Hammad",
-      cnic: "1310298765432",
-      model: "RealMe Note 5",
-      imei: "123456789987664",
-    },
-  ]);
+  const [owners, setOwners] = useState();
+
+  useEffect(() => {
+    const cancelToken = axios.CancelToken.source();
+    // Making a request
+    axios
+      .get("http://127.0.0.1:8090/api/collections/ownership/records", {
+        cancelToken: cancelToken.token,
+      })
+      .then(function (response) {
+        // handle success
+        console.log(response.data.items);
+        setOwners(response.data.items);
+      })
+      .catch(function (error) {
+        // handle error
+        if (axios.isCancel(error)) {
+          console.log("Request cancelled", error.message);
+        }
+      });
+
+    return () => {
+      cancelToken.cancel();
+    };
+  }, []);
 
   return (
-    <div className="flex flex-row justify-center items-center gap-20 h-screen w-screen">
+    <div className="flex flex-row justify-center items-center py-20 w-full">
       <div className="overflow-x-auto">
-        <table className="table normal w-full">
+        <table className="table w-full">
           <thead>
             <tr>
               <th></th>
@@ -43,12 +39,12 @@ const Ownership = () => {
               <th>CNIC</th>
               <th>Model</th>
               <th>IMEI</th>
+              <th>Registeration Date</th>
               <th></th>
-              {/* <th></th> */}
             </tr>
           </thead>
           <tbody>
-            {owner?.map((detail) => (
+            {owners?.map((detail) => (
               <Details key={detail.id} detail={detail} />
             ))}
           </tbody>
@@ -60,7 +56,7 @@ const Ownership = () => {
               <th></th>
               <th></th>
               <th></th>
-              {/* <th></th> */}
+              <th></th>
             </tr>
           </tfoot>
         </table>
@@ -70,7 +66,7 @@ const Ownership = () => {
 };
 
 function Details({ detail }) {
-  const { name, cnic, model, imei } = detail;
+  const { name, cnic, model, imei, created } = detail;
 
   return (
     <tr>
@@ -79,6 +75,7 @@ function Details({ detail }) {
       <td>{cnic}</td>
       <td>{model}</td>
       <td>{imei}</td>
+      <td>{created}</td>
 
       <td>
         <button className="btn btn-active btn-ghost">Edit</button>
