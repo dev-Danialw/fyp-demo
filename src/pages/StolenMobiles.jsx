@@ -31,7 +31,7 @@ const Ownership = () => {
 
   return (
     <>
-      <div className="flex flex-row justify-center items-center py-20 w-full">
+      <div className="flex flex-row justify-center items-center pt-2 pb-20 w-full">
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
