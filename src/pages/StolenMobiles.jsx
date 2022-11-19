@@ -96,15 +96,14 @@ function Details({ detail }) {
       <td>{imei}</td>
       <td>{created}</td>
       <td>
-        <button className="btn btn-active btn-ghost">Edit</button>
+        <button className="btn btn-ghost p-2 border-none">
+          <ion-icon name="create" size="large"></ion-icon>
+        </button>
       </td>
 
       <td>
-        <button
-          className="btn btn-active btn-ghost"
-          onClick={() => removeRecord(id)}
-        >
-          Delete
+        <button className="btn btn-ghost p-2" onClick={() => removeRecord(id)}>
+          <ion-icon name="close-circle" size="large"></ion-icon>
         </button>
       </td>
     </tr>

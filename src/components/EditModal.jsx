@@ -45,8 +45,11 @@ const EditModal = ({ detail }) => {
 
   return (
     <div>
-      <label htmlFor={`my-modal-${id}`} className="btn btn-active btn-ghost">
-        Edit
+      <label
+        htmlFor={`my-modal-${id}`}
+        className="btn btn-ghost p-2 border-none"
+      >
+        <ion-icon name="create" size="large"></ion-icon>
       </label>
       <input type="checkbox" id={`my-modal-${id}`} className="modal-toggle" />
       <div className="modal modal-bottom sm:modal-middle">
