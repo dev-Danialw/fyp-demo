@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import EditModal from "../components/EditModal";
 
 const Ownership = () => {
   const [owners, setOwners] = useState();
@@ -66,7 +67,7 @@ const Ownership = () => {
 };
 
 function Details({ detail }) {
-  const { name, cnic, model, imei, created } = detail;
+  const { id, name, cnic, model, imei, created } = detail;
 
   return (
     <tr>
@@ -78,7 +79,7 @@ function Details({ detail }) {
       <td>{created}</td>
 
       <td>
-        <button className="btn btn-active btn-ghost">Edit</button>
+        <EditModal key={id} detail={detail} />
       </td>
 
       {/* <td>
