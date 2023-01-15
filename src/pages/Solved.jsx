@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuthContext } from "../hooks/useAuthContext";
-import { useNavigate } from "react-router-dom";
+import EditModal from "../components/EditModal";
 
-const Ownership = () => {
-  const [stolen, setStolen] = useState();
+import { useAuthContext } from "../hooks/useAuthContext";
+
+const Solved = () => {
+  const [reports, setReports] = useState();
   const { user } = useAuthContext();
 
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
     // Making a request
     axios
-      .get("http://127.0.0.1:8090/api/collections/stolen/records", {
+      .get("http://127.0.0.1:8090/api/collections/reports/records", {
         cancelToken: cancelToken.token,
       })
       .then(function (response) {
         // handle success
         console.log(response.data.items);
-        setStolen(response.data.items);
+        setReports(response.data.items);
       })
       .catch(function (error) {
         // handle error
@@ -33,23 +34,29 @@ const Ownership = () => {
 
   return (
     <>
+      <div className="flex flex-col justify-center items-center pt-4 pb-4 w-full">
+        <h1 className="text-xl text-white font-bold bg-green-600 px-4 py-4 rounded-full">
+          Solved
+        </h1>
+      </div>
       <div className="flex flex-row justify-center items-center pt-2 pb-20 w-full">
         <div className="overflow-x-auto">
           <table className="table w-full">
             <thead>
               <tr>
+                <th>id</th>
+                <th>Category</th>
+                <th>Location</th>
+                <th>Status</th>
+                {/* <th>Title</th>
+              <th>Details</th> */}
                 <th></th>
-                <th>Name</th>
-                <th>CNIC</th>
-                <th>Model</th>
-                <th>IMEI</th>
-                <th>Reported On</th>
-                {user && <th></th>}
+                <th>Complaint Date</th>
                 {user && <th></th>}
               </tr>
             </thead>
             <tbody>
-              {stolen?.map((detail) => (
+              {reports?.map((detail) => (
                 <Details key={detail.id} detail={detail} />
               ))}
             </tbody>
@@ -62,7 +69,6 @@ const Ownership = () => {
                 <th></th>
                 <th></th>
                 {user && <th></th>}
-                {user && <th></th>}
               </tr>
             </tfoot>
           </table>
@@ -74,49 +80,29 @@ const Ownership = () => {
 
 function Details({ detail }) {
   const { user } = useAuthContext();
-  const { id, name, cnic, model, imei, created } = detail;
-  const navigate = useNavigate();
-
-  // Delete Data
-  const removeRecord = async (id) => {
-    try {
-      await axios.delete(
-        `http://127.0.0.1:8090/api/collections/stolen/records/${id}`
-      );
-      console.log("Item successfully deleted.");
-      navigate(0);
-    } catch (error) {
-      alert(error);
-    }
-  };
+  const { id, title, category, location, description, status, created } =
+    detail;
 
   return (
     <tr>
       <th>1</th>
-      <td>{name}</td>
-      <td>{cnic}</td>
-      <td>{model}</td>
-      <td>{imei}</td>
+      <td>{category}</td>
+      <td>{location}</td>
+      <td>{status}</td>
+      <td></td>
       <td>{created}</td>
+
       {user && (
         <td>
-          <button className="btn btn-ghost p-2 border-none">
-            <ion-icon name="create" size="large"></ion-icon>
-          </button>
+          <EditModal key={id} detail={detail} />
         </td>
       )}
-      {user && (
-        <td>
-          <button
-            className="btn btn-ghost p-2"
-            onClick={() => removeRecord(id)}
-          >
-            <ion-icon name="close-circle" size="large"></ion-icon>
-          </button>
-        </td>
-      )}
+
+      {/* <td>
+        <button className="btn btn-active btn-ghost">Delete</button>
+      </td> */}
     </tr>
   );
 }
 
-export default Ownership;
+export default Solved;
