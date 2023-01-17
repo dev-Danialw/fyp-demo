@@ -27,9 +27,9 @@ function App() {
                 ABBOTTABAD POLICE
               </p>
             </div>
-            <div className="navbar-center">
+            {/* <div className="navbar-center">
               <img className="w-10 rounded-full" src="./assets/logo.jpg" />
-            </div>
+            </div> */}
             <div className="navbar-end flex-none">
               {!user && (
                 <Link to="/login" className="btn btn-square btn-ghost px-8">

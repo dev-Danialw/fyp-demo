@@ -3,14 +3,13 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const EditModal = ({ detail, no }) => {
+const EditModal = ({ detail, id }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate();
 
-  const { id, title, category, location, description, status, created } =
-    detail;
+  const { title, category, location, description, status, created } = detail;
 
   const {
     register,
@@ -44,17 +43,17 @@ const EditModal = ({ detail, no }) => {
   return (
     <>
       <label
-        htmlFor={`my-modal-${no}`}
+        htmlFor={`my-modal-${id}`}
         className="btn btn-ghost p-2 border-none"
       >
         <ion-icon name="create" size="large"></ion-icon>
       </label>
 
-      <input type="checkbox" id={`my-modal-${no}`} className="modal-toggle" />
+      <input type="checkbox" id={`my-modal-${id}`} className="modal-toggle" />
       <div className="modal">
         <div className="modal-box min-w-max flex flex-col items-center">
           <label
-            htmlFor={`my-modal-${no}`}
+            htmlFor={`my-modal-${id}`}
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
@@ -66,6 +65,7 @@ const EditModal = ({ detail, no }) => {
           <div className="card-body ">
             <h2 className="card-title">Complaint ID</h2>
             <p>{id}</p>
+
             <h2 className="card-title">Submitted On</h2>
             <p>{created}</p>
             <h2 className="card-title">Category</h2>

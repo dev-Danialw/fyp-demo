@@ -65,7 +65,12 @@ const Ownership = () => {
             <tbody>
               {reports?.map((doc, index) =>
                 doc.data.complain.map((detail) => (
-                  <Details key={doc.id} detail={detail} no={index} />
+                  <Details
+                    key={doc.id}
+                    detail={detail}
+                    no={index}
+                    id={doc.id}
+                  />
                 ))
               )}
             </tbody>
@@ -87,9 +92,9 @@ const Ownership = () => {
   );
 };
 
-function Details({ detail, no }) {
+function Details({ detail, id, no }) {
   const { user } = useAuthContext();
-  const { id, category, location, status, createdAt } = detail;
+  const { category, location, status, createdAt } = detail;
 
   return (
     <tr>
@@ -102,7 +107,7 @@ function Details({ detail, no }) {
 
       {user && (
         <td>
-          <EditModal key={id} detail={detail} no={no} />
+          <EditModal key={id} detail={detail} id={id} />
         </td>
       )}
 
