@@ -4,7 +4,7 @@ import EditModal from "../components/EditModal";
 
 import { useAuthContext } from "../hooks/useAuthContext";
 
-const Ownership = () => {
+const Reports = () => {
   const [reports, setReports] = useState([]);
   const { user } = useAuthContext();
 
@@ -18,10 +18,6 @@ const Ownership = () => {
           cancelToken: cancelToken.token,
         }
       )
-      // axios
-      //   .get("http://127.0.0.1:8090/api/collections/reports/records", {
-      //     cancelToken: cancelToken.token,
-      //   })
 
       .then(function (response) {
         // handle success
@@ -68,12 +64,14 @@ const Ownership = () => {
                   <Details
                     key={doc.id}
                     detail={detail}
-                    no={index}
                     id={doc.id}
+                    status={doc.data.status}
+                    no={index}
                   />
                 ))
               )}
             </tbody>
+
             <tfoot>
               <tr>
                 <th></th>
@@ -92,9 +90,10 @@ const Ownership = () => {
   );
 };
 
-function Details({ detail, id, no }) {
+function Details({ detail, id, status, no }) {
   const { user } = useAuthContext();
-  const { category, location, status, createdAt } = detail;
+
+  const { category, location, createdAt } = detail;
 
   return (
     <tr>
@@ -107,7 +106,7 @@ function Details({ detail, id, no }) {
 
       {user && (
         <td>
-          <EditModal key={id} detail={detail} id={id} />
+          <EditModal key={id} id={id} detail={detail} status={status} />
         </td>
       )}
 
@@ -118,4 +117,4 @@ function Details({ detail, id, no }) {
   );
 }
 
-export default Ownership;
+export default Reports;

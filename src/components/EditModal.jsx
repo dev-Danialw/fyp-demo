@@ -3,13 +3,12 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const EditModal = ({ detail, id }) => {
+const EditModal = ({ detail, id, status }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate();
-
-  const { title, category, location, description, status, created } = detail;
+  const { uid, title, category, location, description, created } = detail;
 
   const {
     register,
@@ -21,23 +20,28 @@ const EditModal = ({ detail, id }) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
+    // console.log(data);
 
-    // axios
-    //   .patch(
-    //     `http://127.0.0.1:8090/api/collections/ownership/records/${id}`,
-    //     data
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //     setSuccess("Data updated successfully");
-    //     reset();
-    //     navigate(0);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setError("Something went wrong");
-    //   });
+    axios({
+      method: "post",
+      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/updateStatus",
+      data: {
+        uid: uid,
+        complainId: id,
+        status: data.status,
+        remarks: data.remarks.trim(),
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setSuccess("Data updated successfully");
+        reset();
+        // navigate(0);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError("Something went wrong");
+      });
   };
 
   return (
@@ -49,7 +53,15 @@ const EditModal = ({ detail, id }) => {
         <ion-icon name="create" size="large"></ion-icon>
       </label>
 
-      <input type="checkbox" id={`my-modal-${id}`} className="modal-toggle" />
+      <input
+        type="checkbox"
+        id={`my-modal-${id}`}
+        className="modal-toggle"
+        onClick={() => {
+          setSuccess(false);
+          setError(false);
+        }}
+      />
       <div className="modal">
         <div className="modal-box w-screen flex flex-col items-center">
           <label
@@ -150,11 +162,7 @@ const EditModal = ({ detail, id }) => {
                         d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span>
-                      Device already registered.
-                      <br />
-                      {error}
-                    </span>
+                    <span>{error}</span>
                   </div>
                 </div>
               )}

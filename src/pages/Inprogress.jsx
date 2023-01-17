@@ -11,14 +11,15 @@ const Inprogress = () => {
   useEffect(() => {
     const cancelToken = axios.CancelToken.source();
     // Making a request
-    axios
-      .get("http://127.0.0.1:8090/api/collections/reports/records", {
-        cancelToken: cancelToken.token,
-      })
+    axios({
+      method: "post",
+      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/tabsrender",
+      cancelToken: cancelToken.token,
+      data: { tab: "Open - Case Under Investigation" },
+    })
       .then(function (response) {
         // handle success
-        console.log(response.data.items);
-        setReports(response.data.items);
+        setReports(response.data);
       })
       .catch(function (error) {
         // handle error
@@ -56,9 +57,17 @@ const Inprogress = () => {
               </tr>
             </thead>
             <tbody>
-              {reports?.map((detail) => (
-                <Details key={detail.id} detail={detail} />
-              ))}
+              {reports?.map((doc, index) =>
+                doc.data.complain.map((detail) => (
+                  <Details
+                    key={doc.id}
+                    detail={detail}
+                    id={doc.id}
+                    status={doc.data.status}
+                    no={index}
+                  />
+                ))
+              )}
             </tbody>
             <tfoot>
               <tr>
@@ -78,23 +87,23 @@ const Inprogress = () => {
   );
 };
 
-function Details({ detail }) {
+function Details({ detail, id, status, no }) {
   const { user } = useAuthContext();
-  const { id, title, category, location, description, status, created } =
-    detail;
+
+  const { category, location, createdAt } = detail;
 
   return (
     <tr>
-      <th>1</th>
+      <th>{no}</th>
       <td>{category}</td>
       <td>{location}</td>
       <td>{status}</td>
       <td></td>
-      <td>{created}</td>
+      <td>{createdAt.slice(0, 10)}</td>
 
       {user && (
         <td>
-          <EditModal key={id} detail={detail} />
+          <EditModal key={id} id={id} detail={detail} status={status} />
         </td>
       )}
 
