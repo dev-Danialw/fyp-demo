@@ -66,6 +66,7 @@ const Reports = () => {
                     detail={detail}
                     id={doc.id}
                     status={doc.data.status}
+                    remarks={doc.data.remarks}
                     no={index}
                   />
                 ))
@@ -90,7 +91,7 @@ const Reports = () => {
   );
 };
 
-function Details({ detail, id, status, no }) {
+function Details({ detail, id, status, remarks, no }) {
   const { user } = useAuthContext();
 
   const { category, location, createdAt } = detail;
@@ -106,7 +107,13 @@ function Details({ detail, id, status, no }) {
 
       {user && (
         <td>
-          <EditModal key={id} id={id} detail={detail} status={status} />
+          <EditModal
+            key={id}
+            id={id}
+            detail={detail}
+            status={status}
+            remarks={remarks}
+          />
         </td>
       )}
 

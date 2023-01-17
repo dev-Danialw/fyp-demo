@@ -3,12 +3,12 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const EditModal = ({ detail, id, status }) => {
+const EditModal = ({ detail, id, status, remarks }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
   const navigate = useNavigate();
-  const { uid, title, category, location, description, created } = detail;
+  const { uid, title, category, location, description, createdAt } = detail;
 
   const {
     register,
@@ -79,7 +79,7 @@ const EditModal = ({ detail, id, status }) => {
             <p>{id}</p>
 
             <h2 className="card-title">Submitted On</h2>
-            <p>{created}</p>
+            <p>{createdAt.slice(0, 10)}</p>
             <h2 className="card-title">Category</h2>
             <p>{category}</p>
             <h2 className="card-title">Location</h2>
@@ -91,7 +91,14 @@ const EditModal = ({ detail, id, status }) => {
               {description}
             </p>
             <h2 className="card-title">Status</h2>
-            <p>{status}</p>
+            <p className="text-center text-lg font-semibold px-2 py-2 rounded-md">
+              {status}
+            </p>
+
+            <h2 className="card-title">Remarks</h2>
+            <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
+              {remarks}
+            </p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} noValidate>
