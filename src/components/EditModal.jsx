@@ -51,7 +51,7 @@ const EditModal = ({ detail, id }) => {
 
       <input type="checkbox" id={`my-modal-${id}`} className="modal-toggle" />
       <div className="modal">
-        <div className="modal-box min-w-max flex flex-col items-center">
+        <div className="modal-box w-screen flex flex-col items-center">
           <label
             htmlFor={`my-modal-${id}`}
             className="btn btn-sm btn-circle absolute right-2 top-2"
@@ -62,7 +62,7 @@ const EditModal = ({ detail, id }) => {
           <figure>
             <img src="https://placeimg.com/400/225/arch" alt="evidence" />
           </figure>
-          <div className="card-body ">
+          <div className="card-body self-start ">
             <h2 className="card-title">Complaint ID</h2>
             <p>{id}</p>
 
@@ -75,7 +75,7 @@ const EditModal = ({ detail, id }) => {
             <h2 className="card-title">Title</h2>
             <p className="whitespace-normal text-justify">{title}</p>
             <h2 className="card-title">Details</h2>
-            <p className="whitespace-normal max-w-fit text-justify">
+            <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
               {description}
             </p>
             <h2 className="card-title">Status</h2>
