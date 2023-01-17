@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const EditModal = ({ detail }) => {
+const EditModal = ({ detail, no }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -44,17 +44,17 @@ const EditModal = ({ detail }) => {
   return (
     <>
       <label
-        htmlFor={`my-modal-${id}`}
+        htmlFor={`my-modal-${no}`}
         className="btn btn-ghost p-2 border-none"
       >
         <ion-icon name="create" size="large"></ion-icon>
       </label>
 
-      <input type="checkbox" id={`my-modal-${id}`} className="modal-toggle" />
+      <input type="checkbox" id={`my-modal-${no}`} className="modal-toggle" />
       <div className="modal">
         <div className="modal-box min-w-max flex flex-col items-center">
           <label
-            htmlFor={`my-modal-${id}`}
+            htmlFor={`my-modal-${no}`}
             className="btn btn-sm btn-circle absolute right-2 top-2"
           >
             ✕
@@ -66,24 +66,18 @@ const EditModal = ({ detail }) => {
           <div className="card-body ">
             <h2 className="card-title">Complaint ID</h2>
             <p>{id}</p>
-
             <h2 className="card-title">Submitted On</h2>
             <p>{created}</p>
-
             <h2 className="card-title">Category</h2>
             <p>{category}</p>
-
             <h2 className="card-title">Location</h2>
             <p>{location}</p>
-
             <h2 className="card-title">Title</h2>
             <p className="whitespace-normal text-justify">{title}</p>
-
             <h2 className="card-title">Details</h2>
             <p className="whitespace-normal max-w-fit text-justify">
               {description}
             </p>
-
             <h2 className="card-title">Status</h2>
             <p>{status}</p>
           </div>

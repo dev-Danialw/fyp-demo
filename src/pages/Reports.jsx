@@ -102,7 +102,7 @@ function Details({ detail, no }) {
 
       {user && (
         <td>
-          <EditModal key={id} detail={detail} />
+          <EditModal key={id} detail={detail} no={no} />
         </td>
       )}
 
