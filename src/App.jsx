@@ -1,10 +1,11 @@
 import "./App.css";
+import Logo from "./assets/logo.png";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-import Reports from "./pages/Reports";
 import Login from "./pages/Login";
 
+import Reports from "./pages/Reports";
 import Inprogress from "./pages/Inprogress";
 import Solved from "./pages/Solved";
 import Discarded from "./pages/Discarded";
@@ -21,16 +22,16 @@ function App() {
       {authIsReady && (
         <BrowserRouter>
           {/* Top Bar */}
-          <div className="navbar bg-base-100">
+          <div className="navbar bg-purple-900">
             <div className="flex-1 navbar-start">
-              <p className="btn btn-ghost normal-case text-xl">
+              <p className="btn btn-ghost text-white normal-case text-xl">
                 ABBOTTABAD POLICE
               </p>
             </div>
-            {/* <div className="navbar-center">
-              <img className="w-10 rounded-full" src="./assets/logo.jpg" />
-            </div> */}
-            <div className="navbar-end flex-none">
+            <div className="navbar-center">
+              <img className="w-14 rounded-full" src={Logo} alt="logo" />
+            </div>
+            <div className="navbar-end text-white">
               {!user && (
                 <Link to="/login" className="btn btn-square btn-ghost px-8">
                   Admin
@@ -59,8 +60,7 @@ function App() {
           </div>
 
           {/* Nav */}
-
-          <div className="navbar bg-base-200 flex flex-row justify-center gap-10">
+          <div className="navbar bg-base-200 flex flex-row justify-center gap-20">
             <Link to="/reports" className="btn btn-ghost normal-case text-xl">
               Active Reports
             </Link>
@@ -78,6 +78,10 @@ function App() {
             </Link>
           </div>
           {/* Nav */}
+
+          <div className="flex justify-center">
+            <img className="absolute -z-50 opacity-10" src={Logo} alt="" />
+          </div>
 
           <Routes>
             <Route

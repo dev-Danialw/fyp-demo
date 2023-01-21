@@ -36,23 +36,23 @@ const Discarded = () => {
   return (
     <>
       <div className="flex flex-col justify-center items-center pt-4 pb-4 w-full">
-        <h1 className="text-xl text-white font-bold bg-orange-400 px-4 py-4 rounded-full">
-          Under Investigation
+        <h1 className="text-xl text-white font-bold bg-red-500 px-4 py-4 rounded-full">
+          Discarded - {reports?.length}
         </h1>
       </div>
-      <div className="flex flex-row justify-center items-center pt-2 pb-20 w-full">
-        <div className="overflow-x-auto">
+      <div className="flex justify-center pt-2 pb-20 w-full">
+        <div className="overflow-x-auto overflow-y-auto w-screen mx-24">
           <table className="table w-full">
             <thead>
               <tr>
                 <th>id</th>
                 <th>Category</th>
                 <th>Location</th>
-                <th>Status</th>
+                <th>Complaint Date</th>
                 {/* <th>Title</th>
               <th>Details</th> */}
-                <th></th>
-                <th>Complaint Date</th>
+                {/* <th></th> */}
+                <th>Complaint ID</th>
                 {user && <th></th>}
               </tr>
             </thead>
@@ -77,7 +77,7 @@ const Discarded = () => {
                 <th></th>
                 <th></th>
                 <th></th>
-                <th></th>
+                {/* <th></th> */}
                 {user && <th></th>}
               </tr>
             </tfoot>
@@ -98,9 +98,9 @@ function Details({ detail, id, status, remarks, no }) {
       <th>{no}</th>
       <td>{category}</td>
       <td>{location}</td>
-      <td>{status}</td>
-      <td></td>
       <td>{createdAt.slice(0, 10)}</td>
+      {/* <td></td> */}
+      <td>{id}</td>
 
       {user && (
         <td>

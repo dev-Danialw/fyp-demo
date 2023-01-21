@@ -63,45 +63,73 @@ const EditModal = ({ detail, id, status, remarks }) => {
         }}
       />
       <div className="modal">
-        <div className="modal-box w-screen flex flex-col items-center">
+        <div className="modal-box flex flex-col items-center min-w-fit min-h-fit print:h-full print:overflow-visible ">
           <label
             htmlFor={`my-modal-${id}`}
-            className="btn btn-sm btn-circle absolute right-2 top-2"
+            className="btn btn-md btn-circle absolute z-50 right-5 top-5 print:hidden"
           >
             ✕
           </label>
 
-          <figure>
-            <img src="https://placeimg.com/400/225/arch" alt="evidence" />
-          </figure>
-          <div className="card-body self-start ">
-            <h2 className="card-title">Complaint ID</h2>
-            <p>{id}</p>
+          <label className="btn btn-md btn-circle absolute z-50 left-5 top-5 print:hidden">
+            <ion-icon
+              name="print"
+              size="large"
+              onClick={() => window.print()}
+            ></ion-icon>
+          </label>
 
-            <h2 className="card-title">Submitted On</h2>
-            <p>{createdAt.slice(0, 10)}</p>
-            <h2 className="card-title">Category</h2>
-            <p>{category}</p>
-            <h2 className="card-title">Location</h2>
-            <p>{location}</p>
-            <h2 className="card-title">Title</h2>
-            <p className="whitespace-normal text-justify">{title}</p>
-            <h2 className="card-title">Details</h2>
-            <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
-              {description}
-            </p>
-            <h2 className="card-title">Status</h2>
-            <p className="text-center text-lg font-semibold px-2 py-2 rounded-md">
-              {status}
-            </p>
+          {/*  */}
+          <div className="card">
+            <figure>
+              <img src="https://placeimg.com/400/225/arch" alt="evidence" />
+            </figure>
+            <div className="card-body self-start">
+              <div className="self-center flex flex-col items-center gap-2 mb-4">
+                <h2 className="card-title">Complaint ID</h2>
+                <p>{id}</p>
 
-            <h2 className="card-title">Remarks</h2>
-            <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
-              {remarks}
-            </p>
+                <h2 className="card-title">Submitted On</h2>
+                <p>{createdAt.slice(0, 10)}</p>
+              </div>
+
+              <h2 className="card-title">Category</h2>
+              <p>{category}</p>
+              <h2 className="card-title">Location</h2>
+              <p>{location}</p>
+              <h2 className="card-title">Title</h2>
+              <p className="whitespace-normal text-justify">{title}</p>
+              <h2 className="card-title">Details</h2>
+              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
+                {description}
+              </p>
+              <h2 className="card-title print:hidden">Status</h2>
+              <p
+                className={`
+              ${status === "Submitted" && "bg-green-400"} 
+              ${
+                status === "Open - Case Under Investigation" && "bg-orange-400"
+              } 
+              ${status === "Closed - Case Solved" && "bg-green-600"} 
+              ${status === "Closed - Report Discarded" && "bg-red-500"} 
+              text-white text-center text-lg font-semibold px-2 py-2 rounded-md print:hidden`}
+              >
+                {status}
+              </p>
+
+              <h2 className="card-title print:hidden">Remarks</h2>
+              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
+                {remarks}
+              </p>
+            </div>
           </div>
+          {/*  */}
 
-          <form onSubmit={handleSubmit(onSubmit)} noValidate>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            noValidate
+            className="print:hidden"
+          >
             <div className="flex flex-col gap-5">
               {/* select input for statuses */}
               <select
@@ -146,7 +174,7 @@ const EditModal = ({ detail, id, status, remarks }) => {
                         d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                       />
                     </svg>
-                    <span>Remarks required.</span>
+                    <span>Status Update is required.</span>
                   </div>
                 </div>
               )}
