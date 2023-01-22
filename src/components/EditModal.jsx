@@ -3,7 +3,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-const EditModal = ({ detail, id, status, remarks }) => {
+const EditModal = ({ detail, id, status, remarks, feedback }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -52,6 +52,9 @@ const EditModal = ({ detail, id, status, remarks }) => {
       >
         <ion-icon name="create" size="large"></ion-icon>
       </label>
+      <div className="btn btn-ghost p-2 border-none">
+        <ion-icon name="trash" size="large"></ion-icon>
+      </div>
 
       <input
         type="checkbox"
@@ -71,13 +74,15 @@ const EditModal = ({ detail, id, status, remarks }) => {
             ✕
           </label>
 
-          <label className="btn btn-md btn-circle absolute z-50 left-5 top-5 print:hidden">
-            <ion-icon
-              name="print"
-              size="large"
-              onClick={() => window.print()}
-            ></ion-icon>
-          </label>
+          {status !== "Closed - Report Discarded" && (
+            <label className="btn btn-md btn-circle absolute z-50 left-5 top-5 print:hidden">
+              <ion-icon
+                name="print"
+                size="large"
+                onClick={() => window.print()}
+              />
+            </label>
+          )}
 
           {/*  */}
           <div className="card">
@@ -121,114 +126,132 @@ const EditModal = ({ detail, id, status, remarks }) => {
               <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
                 {remarks}
               </p>
+
+              <h2 className="card-title print:hidden">Feedback</h2>
+              <p
+                className={`box-border block text-center ${
+                  feedback.satisfied ? "bg-green-300" : "bg-orange-600"
+                } w-fit mx-auto px-2 py-1 rounded-md
+                print:hidden`}
+              >
+                {feedback.satisfied ? "Satisfied" : "Not Satisfied"}
+              </p>
+              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
+                {feedback.comment}
+              </p>
             </div>
           </div>
           {/*  */}
 
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            noValidate
-            className="print:hidden"
-          >
-            <div className="flex flex-col gap-5">
-              {/* select input for statuses */}
-              <select
-                className="input input-bordered w-full max-w-xs"
-                {...register("status", {
-                  required: true,
-                })}
-              >
-                <option value="Open - Case Under Investigation">
-                  Open - Case Under Investigation
-                </option>
-                <option value="Closed - Case Solved">
-                  Closed - Case Solved
-                </option>
-                <option value="Closed - Report Discarded">
-                  Closed - Report Discarded
-                </option>
-              </select>
+          {/* show form when status in submitted or under investigation */}
+          {status === "Submitted" ||
+          status === "Open - Case Under Investigation" ? (
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              noValidate
+              className="print:hidden"
+            >
+              <div className="flex flex-col gap-5">
+                {/* select input for statuses */}
+                <select
+                  className="input input-bordered w-full max-w-xs"
+                  {...register("status", {
+                    required: "default empty status",
+                  })}
+                >
+                  <option value="">Select Status Update</option>
+                  <option value="Open - Case Under Investigation">
+                    Open - Case Under Investigation
+                  </option>
+                  <option value="Closed - Case Solved">
+                    Closed - Case Solved
+                  </option>
+                  <option value="Closed - Report Discarded">
+                    Closed - Report Discarded
+                  </option>
+                </select>
 
-              {/* remarks input */}
-              <textarea
-                className="input input-bordered w-full max-w-xs"
-                placeholder="Remarks"
-                {...register("remarks", {
-                  required: false,
-                })}
-              ></textarea>
+                {/* remarks input */}
+                <textarea
+                  className="input input-bordered w-full max-w-xs"
+                  placeholder="Remarks"
+                  {...register("remarks", {
+                    required: false,
+                  })}
+                ></textarea>
 
-              {errors.status && (
-                <div className="alert alert-error shadow-lg">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current flex-shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>Status Update is required.</span>
+                {errors.status && (
+                  <div className="alert alert-error shadow-lg">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current flex-shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>Status Update is required.</span>
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* Name */}
+                )}
+                {/* Name */}
 
-              {/* registration Error || Success */}
-              {error && (
-                <div className="alert alert-error shadow-lg">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current flex-shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{error}</span>
+                {/* registration Error || Success */}
+                {error && (
+                  <div className="alert alert-error shadow-lg">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current flex-shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>{error}</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {success && (
-                <div className="alert alert-success shadow-lg">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="stroke-current flex-shrink-0 h-6 w-6"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span>{success}</span>
+                {success && (
+                  <div className="alert alert-success shadow-lg">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current flex-shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                      </svg>
+                      <span>{success}</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Reg Btn */}
-              <button className="btn" type="submit">
-                Register
-              </button>
-            </div>
-          </form>
+                {/* Reg Btn */}
+                <button className="btn" type="submit">
+                  Update
+                </button>
+              </div>
+            </form>
+          ) : null}
         </div>
       </div>
     </>

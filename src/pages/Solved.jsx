@@ -65,6 +65,7 @@ const Solved = () => {
                     id={doc.id}
                     remarks={doc.data.remarks}
                     status={doc.data.status}
+                    feedback={doc.data.feedback}
                     no={index}
                   />
                 ))
@@ -88,7 +89,7 @@ const Solved = () => {
   );
 };
 
-function Details({ detail, id, status, remarks, no }) {
+function Details({ detail, id, status, remarks, feedback, no }) {
   const { user } = useAuthContext();
 
   const { category, location, createdAt } = detail;
@@ -110,6 +111,7 @@ function Details({ detail, id, status, remarks, no }) {
             detail={detail}
             status={status}
             remarks={remarks}
+            feedback={feedback}
           />
         </td>
       )}
