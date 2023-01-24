@@ -122,23 +122,32 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
                 {status}
               </p>
 
-              <h2 className="card-title print:hidden">Remarks</h2>
-              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
-                {remarks}
-              </p>
+              {remarks && (
+                <>
+                  <h2 className="card-title print:hidden">Remarks</h2>
+                  <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
+                    {remarks}
+                  </p>
+                </>
+              )}
 
-              <h2 className="card-title print:hidden">Feedback</h2>
-              <p
-                className={`box-border block text-center ${
-                  feedback.satisfied ? "bg-green-300" : "bg-orange-600"
-                } w-fit mx-auto px-2 py-1 rounded-md
+              {feedback && (
+                <>
+                  <h2 className="card-title print:hidden">Feedback</h2>
+                  <p
+                    className={`box-border block text-center ${
+                      feedback.satisfied ? "bg-green-300" : "bg-orange-600"
+                    } w-fit mx-auto px-2 py-1 rounded-md
                 print:hidden`}
-              >
-                {feedback.satisfied ? "Satisfied" : "Not Satisfied"}
-              </p>
-              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
-                {feedback.comment}
-              </p>
+                  >
+                    {feedback.satisfied ? "Satisfied" : "Not Satisfied"}
+                  </p>
+
+                  <p className="box-border block whitespace-normal break-words max-w-3xl text-justify print:hidden">
+                    {feedback.comment}
+                  </p>
+                </>
+              )}
             </div>
           </div>
           {/*  */}
