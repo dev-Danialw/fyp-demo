@@ -87,7 +87,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
           {/*  */}
           <div className="card">
             <figure>
-              <img src="https://placeimg.com/400/225/arch" alt="evidence" />
+              <img src={detail.image} alt="evidence" />
             </figure>
             <div className="card-body self-start">
               <div className="self-center flex flex-col items-center gap-2 mb-4">
