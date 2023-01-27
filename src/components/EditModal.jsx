@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import ModalImage from "react-modal-image";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
@@ -66,7 +67,11 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
         }}
       />
       <div className="modal">
-        <div className="modal-box flex flex-col items-center min-w-fit min-h-fit print:h-full print:overflow-visible ">
+        <div
+          className="modal-box flex flex-col items-center min-w-fit min-h-fit print:h-full print:overflow-visible scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-slate-300
+        scrollbar-corner-transparent
+        "
+        >
           <label
             htmlFor={`my-modal-${id}`}
             className="btn btn-md btn-circle absolute z-50 right-5 top-5 print:hidden"
@@ -86,8 +91,15 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
 
           {/*  */}
           <div className="card">
-            <figure>
-              <img src={detail.image} alt="evidence" />
+            <figure className="block max-w-md max-h-80 mx-auto rounded-2xl ">
+              <ModalImage
+                small={detail.image}
+                large={detail.image}
+                hideDownload
+                alt="Evidence"
+                className="cursor-pointer max-w-full max-h-full"
+              />
+              ;
             </figure>
             <div className="card-body self-start">
               <div className="self-center flex flex-col items-center gap-2 mb-4">
