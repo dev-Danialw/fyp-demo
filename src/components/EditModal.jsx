@@ -37,7 +37,28 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
         console.log(response);
         setSuccess("Data updated successfully");
         reset();
-        // navigate(0);
+        navigate(0);
+      })
+      .catch((error) => {
+        console.log(error);
+        setError("Something went wrong");
+      });
+  };
+
+  const onDeletePress = async () => {
+    axios({
+      method: "post",
+      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/deleteComplain",
+      data: {
+        uid: uid,
+        complainId: id,
+        imageName: detail.imageName,
+      },
+    })
+      .then((response) => {
+        console.log(response);
+        setSuccess("Data Deleted successfully");
+        navigate(0);
       })
       .catch((error) => {
         console.log(error);
@@ -53,7 +74,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
       >
         <ion-icon name="create" size="large"></ion-icon>
       </label>
-      <div className="btn btn-ghost p-2 border-none">
+      <div onClick={onDeletePress} className="btn btn-ghost p-2 border-none">
         <ion-icon name="trash" size="large"></ion-icon>
       </div>
 
@@ -92,14 +113,15 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
           {/*  */}
           <div className="card">
             <figure className="block max-w-md max-h-80 mx-auto rounded-2xl ">
-              <ModalImage
-                small={detail.image}
-                large={detail.image}
-                hideDownload
-                alt="Evidence"
-                className="cursor-pointer max-w-full max-h-full"
-              />
-              ;
+              {detail.image && (
+                <ModalImage
+                  small={detail.image}
+                  large={detail.image}
+                  hideDownload
+                  alt="Evidence"
+                  className="cursor-pointer max-w-full max-h-full"
+                />
+              )}
             </figure>
             <div className="card-body self-start">
               <div className="self-center flex flex-col items-center gap-2 mb-4">
