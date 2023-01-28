@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import axios from "axios";
 import ModalImage from "react-modal-image";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 
 const EditModal = ({ detail, id, status, remarks, feedback }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const navigate = useNavigate();
   const { uid, title, category, location, description, createdAt } = detail;
 
   const {
@@ -21,8 +19,6 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
   });
 
   const onSubmit = async (data) => {
-    // console.log(data);
-
     axios({
       method: "post",
       url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/updateStatus",
@@ -34,13 +30,12 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
       },
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setSuccess("Data updated successfully");
         reset();
-        navigate(0);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setError("Something went wrong");
       });
   };
@@ -56,12 +51,11 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
       },
     })
       .then((response) => {
-        console.log(response);
+        // console.log(response);
         setSuccess("Data Deleted successfully");
-        navigate(0);
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
         setError("Something went wrong");
       });
   };

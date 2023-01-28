@@ -1,36 +1,45 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import EditModal from "../components/EditModal";
 
-import { useAuthContext } from "../hooks/useAuthContext";
+import { db } from "../firebase/config";
+import {
+  collectionGroup,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 
 const Inprogress = () => {
   const [reports, setReports] = useState();
-  const { user } = useAuthContext();
 
   useEffect(() => {
-    const cancelToken = axios.CancelToken.source();
-    // Making a request
-    axios({
-      method: "post",
-      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/tabsrender",
-      cancelToken: cancelToken.token,
-      data: { tab: "Open - Case Under Investigation" },
-    })
-      .then(function (response) {
-        // handle success
-        setReports(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        if (axios.isCancel(error)) {
-          console.log("Request cancelled", error.message);
-        }
-      });
+    const ref = collectionGroup(db, "complain");
+    const q = query(
+      ref,
+      where("status", "==", "Open - Case Under Investigation"),
+      orderBy("createdAt", "desc")
+    );
 
-    return () => {
-      cancelToken.cancel();
-    };
+    const unsub = onSnapshot(
+      q,
+      (snapshot) => {
+        if (snapshot.empty) {
+          console.log("No reports to load...");
+        } else {
+          let results = [];
+          snapshot.docs.forEach((doc) => {
+            results.push({ id: doc.id, ...doc.data() });
+          });
+          setReports(results);
+        }
+      },
+      (err) => {
+        console.log(err.message);
+      }
+    );
+
+    return () => unsub();
   }, []);
 
   return (
@@ -49,22 +58,19 @@ const Inprogress = () => {
                 <th>Category</th>
                 <th>Location</th>
                 <th>Complaint Date</th>
-                {/* <th>Title</th>
-              <th>Details</th> */}
-                {/* <th></th> */}
                 <th>Complaint ID</th>
-                {user && <th></th>}
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {reports?.map((doc, index) =>
-                doc.data.complain.map((detail) => (
+                doc.complain.map((detail) => (
                   <Details
                     key={doc.id}
                     detail={detail}
                     id={doc.id}
-                    status={doc.data.status}
-                    remarks={doc.data.remarks}
+                    status={doc.status}
+                    remarks={doc.remarks}
                     no={index}
                   />
                 ))
@@ -77,8 +83,7 @@ const Inprogress = () => {
                 <th></th>
                 <th></th>
                 <th></th>
-                {/* <th></th> */}
-                {user && <th></th>}
+                <th></th>
               </tr>
             </tfoot>
           </table>
@@ -89,8 +94,6 @@ const Inprogress = () => {
 };
 
 function Details({ detail, id, status, no, remarks }) {
-  const { user } = useAuthContext();
-
   const { category, location, createdAt } = detail;
 
   return (
@@ -99,24 +102,17 @@ function Details({ detail, id, status, no, remarks }) {
       <td>{category}</td>
       <td>{location}</td>
       <td>{createdAt.slice(0, 10)}</td>
-      {/* <td></td> */}
       <td>{id}</td>
 
-      {user && (
-        <td>
-          <EditModal
-            key={id}
-            id={id}
-            detail={detail}
-            status={status}
-            remarks={remarks}
-          />
-        </td>
-      )}
-
-      {/* <td>
-        <button className="btn btn-active btn-ghost">Delete</button>
-      </td> */}
+      <td>
+        <EditModal
+          key={id}
+          id={id}
+          detail={detail}
+          status={status}
+          remarks={remarks}
+        />
+      </td>
     </tr>
   );
 }

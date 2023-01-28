@@ -1,19 +1,24 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAxXlihgepDpVSX1WycyuoOuPemVstWY8s",
-  authDomain: "reactreadinglistapp.firebaseapp.com",
-  projectId: "reactreadinglistapp",
-  storageBucket: "reactreadinglistapp.appspot.com",
-  messagingSenderId: "425063495391",
-  appId: "1:425063495391:web:74a5f778d97fa8a98e9b6a",
+  apiKey: "AIzaSyBRezRneL8wVmNNKRqhvKlB35QXFS_X4so",
+  authDomain: "anti-norcotics.firebaseapp.com",
+  projectId: "anti-norcotics",
+  storageBucket: "anti-norcotics.appspot.com",
+  messagingSenderId: "764751912959",
+  appId: "1:764751912959:web:44d31756ce0c72455611ca",
+  measurementId: "G-LW2SCL1VEQ",
 };
 
 // firebase
 initializeApp(firebaseConfig);
 
+// firestore
+const db = getFirestore();
+
 // auth
 const auth = getAuth();
 
-export { auth };
+export { auth, db };
