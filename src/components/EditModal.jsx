@@ -145,7 +145,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
               } 
               ${status === "Closed - Case Solved" && "bg-green-600"} 
               ${status === "Closed - Report Discarded" && "bg-red-500"} 
-              text-white text-center text-lg font-semibold px-2 py-2 rounded-md print:hidden`}
+              text-white text-center text-lg font-bold px-2 py-2 rounded-md print:hidden`}
               >
                 {status}
               </p>
@@ -165,7 +165,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
                   <p
                     className={`box-border block text-center ${
                       feedback.satisfied ? "bg-green-300" : "bg-orange-600"
-                    } w-fit mx-auto px-2 py-1 rounded-md
+                    } w-fit mx-auto px-2 py-1 rounded-md text-white font-bold
                 print:hidden`}
                   >
                     {feedback.satisfied ? "Satisfied" : "Not Satisfied"}
@@ -182,7 +182,8 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
 
           {/* show form when status in submitted or under investigation */}
           {status === "Submitted" ||
-          status === "Open - Case Under Investigation" ? (
+          status === "Open - Case Under Investigation" ||
+          (feedback && feedback.satisfied === false) ? (
             <form
               onSubmit={handleSubmit(onSubmit)}
               noValidate

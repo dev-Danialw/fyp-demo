@@ -71,6 +71,7 @@ const Solved = () => {
                     id={doc.id}
                     status={doc.status}
                     remarks={doc.remarks}
+                    feedback={doc.feedback}
                     no={index}
                   />
                 ))
