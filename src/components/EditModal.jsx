@@ -3,11 +3,14 @@ import axios from "axios";
 import ModalImage from "react-modal-image";
 import { useForm } from "react-hook-form";
 
+import ReactAudioPlayer from "react-audio-player";
+
 const EditModal = ({ detail, id, status, remarks, feedback }) => {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
-  const { uid, title, category, location, description, createdAt } = detail;
+  const { uid, title, category, location, description, createdAt, audio } =
+    detail;
 
   const {
     register,
@@ -48,6 +51,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
         uid: uid,
         complainId: id,
         imageName: detail.imageName,
+        audioName: detail.audioName,
       },
     })
       .then((response) => {
@@ -136,6 +140,19 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
               <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
                 {description}
               </p>
+
+              {audio && (
+                <div className="mx-auto my-2">
+                  <ReactAudioPlayer
+                    src={detail.audio}
+                    // autoPlay
+                    controls
+                    controlsList="nodownload"
+                    volume={0.5}
+                  />
+                </div>
+              )}
+
               <h2 className="card-title print:hidden">Status</h2>
               <p
                 className={`
