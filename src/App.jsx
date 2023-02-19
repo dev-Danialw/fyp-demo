@@ -62,7 +62,7 @@ function App() {
           {/* Nav */}
           <div className="navbar bg-base-200 flex flex-row justify-center gap-20">
             <Link to="/reports" className="btn btn-ghost normal-case text-xl">
-              Active Reports
+              Active Complaints
             </Link>
             <Link
               to="/inprogress"

@@ -156,12 +156,10 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
               <h2 className="card-title print:hidden">Status</h2>
               <p
                 className={`
-              ${status === "Submitted" && "bg-green-400"} 
-              ${
-                status === "Open - Case Under Investigation" && "bg-orange-400"
-              } 
-              ${status === "Closed - Case Solved" && "bg-green-600"} 
-              ${status === "Closed - Report Discarded" && "bg-red-500"} 
+              ${status === "Open - Complaint Received" && "bg-green-400"} 
+              ${status === "In Progress" && "bg-orange-400"} 
+              ${status === "Closed - Complaint Resolved" && "bg-green-600"} 
+              ${status === "Closed - Complaint Dismissed" && "bg-red-500"} 
               text-white text-center text-lg font-bold px-2 py-2 rounded-md print:hidden`}
               >
                 {status}
@@ -198,8 +196,8 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
           {/*  */}
 
           {/* show form when status in submitted or under investigation */}
-          {status === "Submitted" ||
-          status === "Open - Case Under Investigation" ||
+          {status === "Open - Complaint Received" ||
+          status === "In Progress" ||
           (feedback && feedback.satisfied === false) ? (
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -215,14 +213,12 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
                   })}
                 >
                   <option value="">Select Status Update</option>
-                  <option value="Open - Case Under Investigation">
-                    Open - Case Under Investigation
+                  <option value="In Progress">In Progress</option>
+                  <option value="Closed - Complaint Resolved">
+                    Closed - Complaint Resolved
                   </option>
-                  <option value="Closed - Case Solved">
-                    Closed - Case Solved
-                  </option>
-                  <option value="Closed - Report Discarded">
-                    Closed - Report Discarded
+                  <option value="Closed - Complaint Dismissed">
+                    Closed - Complaint Dismissed
                   </option>
                 </select>
 

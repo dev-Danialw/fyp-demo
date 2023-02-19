@@ -17,7 +17,7 @@ const Solved = () => {
     const ref = collectionGroup(db, "complain");
     const q = query(
       ref,
-      where("status", "==", "Closed - Case Solved"),
+      where("status", "==", "Closed - Complaint Resolved"),
       orderBy("createdAt", "desc")
     );
 

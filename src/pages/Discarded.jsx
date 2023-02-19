@@ -17,7 +17,7 @@ const Discarded = () => {
     const ref = collectionGroup(db, "complain");
     const q = query(
       ref,
-      where("status", "==", "Closed - Report Discarded"),
+      where("status", "==", "Closed - Complaint Dismissed"),
       orderBy("createdAt", "desc")
     );
 

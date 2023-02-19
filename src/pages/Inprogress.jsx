@@ -17,7 +17,7 @@ const Inprogress = () => {
     const ref = collectionGroup(db, "complain");
     const q = query(
       ref,
-      where("status", "==", "Open - Case Under Investigation"),
+      where("status", "==", "In Progress"),
       orderBy("createdAt", "desc")
     );
 

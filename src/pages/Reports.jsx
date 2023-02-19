@@ -17,7 +17,7 @@ const Reports = () => {
     const ref = collectionGroup(db, "complain");
     const q = query(
       ref,
-      where("status", "==", "Submitted"),
+      where("status", "==", "Open - Complaint Received"),
       orderBy("createdAt", "desc")
     );
 
