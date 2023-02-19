@@ -3,7 +3,8 @@ import axios from "axios";
 import ModalImage from "react-modal-image";
 import { useForm } from "react-hook-form";
 
-import ReactAudioPlayer from "react-audio-player";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
 
 const EditModal = ({ detail, id, status, remarks, feedback }) => {
   const [error, setError] = useState(null);
@@ -142,14 +143,8 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
               </p>
 
               {audio && (
-                <div className="mx-auto my-2">
-                  <ReactAudioPlayer
-                    src={detail.audio}
-                    // autoPlay
-                    controls
-                    controlsList="nodownload"
-                    volume={0.5}
-                  />
+                <div className="mx-auto my-2 w-96">
+                  <AudioPlayer src={detail.audio} />
                 </div>
               )}
 

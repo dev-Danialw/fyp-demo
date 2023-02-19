@@ -63,18 +63,19 @@ const Inprogress = () => {
               </tr>
             </thead>
             <tbody>
-              {reports?.map((doc, index) =>
-                doc.complain.map((detail) => (
-                  <Details
-                    key={doc.id}
-                    detail={detail}
-                    id={doc.id}
-                    status={doc.status}
-                    remarks={doc.remarks}
-                    no={index}
-                  />
-                ))
-              )}
+              {reports &&
+                reports.map((doc, index) =>
+                  doc.complain.map((detail) => (
+                    <Details
+                      key={doc.id}
+                      detail={detail}
+                      id={doc.id}
+                      status={doc.status}
+                      remarks={doc.remarks}
+                      no={index}
+                    />
+                  ))
+                )}
             </tbody>
             <tfoot>
               <tr>
