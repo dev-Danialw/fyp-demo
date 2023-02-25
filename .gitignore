@@ -27,3 +27,5 @@ dist-ssr
 
 /pb_data
 pocketbase.exe
+# Local Netlify folder
+.netlify
