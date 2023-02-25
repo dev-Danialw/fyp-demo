@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 import ModalImage from "react-modal-image";
 import { useForm } from "react-hook-form";
 
@@ -7,6 +8,7 @@ import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 
 const EditModal = ({ detail, id, status, remarks, feedback }) => {
+  const { user } = useAuthContext();
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
 
@@ -23,9 +25,22 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
   });
 
   const onSubmit = async (data) => {
+    if (data.status === "In Progress") {
+      axios({
+        method: "post",
+        url: import.meta.env.VITE_REACT_DELETE_FEEDBACK,
+        data: {
+          uid: uid,
+          complainId: id,
+        },
+      }).catch((error) => {
+        setError("Something went wrong");
+      });
+    }
+
     axios({
       method: "post",
-      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/updateStatus",
+      url: import.meta.env.VITE_REACT_UPDATE_COMPLAINT_STATUS,
       data: {
         uid: uid,
         complainId: id,
@@ -47,7 +62,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
   const onDeletePress = async () => {
     axios({
       method: "post",
-      url: "https://bmhtpvs2m2.execute-api.us-east-2.amazonaws.com/deleteComplain",
+      url: import.meta.env.VITE_REACT_DELETE_COMPLAINT,
       data: {
         uid: uid,
         complainId: id,
@@ -73,9 +88,17 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
       >
         <ion-icon name="create" size="large"></ion-icon>
       </label>
-      <div onClick={onDeletePress} className="btn btn-ghost p-2 border-none">
-        <ion-icon name="trash" size="large"></ion-icon>
-      </div>
+
+      {user.uid === import.meta.env.VITE_REACT_ADMIN &&
+        (status === "Closed - Complaint Resolved" ||
+        status === "Closed - Complaint Dismissed" ? (
+          <div
+            onClick={onDeletePress}
+            className="btn btn-ghost p-2 border-none"
+          >
+            <ion-icon name="trash" size="large"></ion-icon>
+          </div>
+        ) : null)}
 
       <input
         type="checkbox"
@@ -99,7 +122,7 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
             ✕
           </label>
 
-          {status !== "Closed - Report Discarded" && (
+          {status !== "Closed - Report Dismissed" && (
             <label className="btn btn-md btn-circle absolute z-50 left-5 top-5 print:hidden">
               <ion-icon
                 name="print"
@@ -124,21 +147,27 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
             </figure>
             <div className="card-body self-start">
               <div className="self-center flex flex-col items-center gap-2 mb-4">
-                <h2 className="card-title">Complaint ID</h2>
-                <p>{id}</p>
+                <h2 className="card-title font-bold text-gray-700">
+                  Complaint ID
+                </h2>
+                <p className="font-medium text-slate-700 text-lg">{id}</p>
 
                 <h2 className="card-title">Submitted On</h2>
-                <p>{createdAt.slice(0, 10)}</p>
+                <p className="font-medium text-slate-700 text-lg">
+                  {createdAt.slice(0, 10)}
+                </p>
               </div>
 
-              <h2 className="card-title">Category</h2>
-              <p>{category}</p>
-              <h2 className="card-title">Location</h2>
-              <p>{location}</p>
-              <h2 className="card-title">Title</h2>
-              <p className="whitespace-normal text-justify">{title}</p>
-              <h2 className="card-title">Details</h2>
-              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify">
+              <h2 className="card-title font-bold text-gray-700 ">Category</h2>
+              <p className="font-medium text-slate-700 text-lg">{category}</p>
+              <h2 className="card-title font-bold text-gray-700">Location</h2>
+              <p className="font-medium text-slate-700 text-lg">{location}</p>
+              <h2 className="card-title font-bold text-gray-700">Title</h2>
+              <p className="whitespace-normal text-justify font-medium text-slate-700 text-lg">
+                {title}
+              </p>
+              <h2 className="card-title font-bold text-gray-700">Details</h2>
+              <p className="box-border block whitespace-normal break-words max-w-3xl text-justify font-medium text-slate-700 text-base">
                 {description}
               </p>
 
@@ -148,7 +177,9 @@ const EditModal = ({ detail, id, status, remarks, feedback }) => {
                 </div>
               )}
 
-              <h2 className="card-title print:hidden">Status</h2>
+              <h2 className="card-title font-bold text-gray-700 print:hidden">
+                Status
+              </h2>
               <p
                 className={`
               ${status === "Open - Complaint Received" && "bg-green-400"} 

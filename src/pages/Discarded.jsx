@@ -46,7 +46,7 @@ const Discarded = () => {
     <>
       <div className="flex flex-col justify-center items-center pt-4 pb-4 w-full">
         <h1 className="text-xl text-white font-bold bg-red-500 px-4 py-4 rounded-full">
-          Discarded - {reports?.length}
+          Dismissed - {reports?.length}
         </h1>
       </div>
       <div className="flex justify-center pt-2 pb-20 w-full">
@@ -99,11 +99,11 @@ function Details({ detail, id, status, remarks, no }) {
 
   return (
     <tr>
-      <th>{no}</th>
-      <td>{category}</td>
-      <td>{location}</td>
-      <td>{createdAt.slice(0, 10)}</td>
-      <td>{id}</td>
+      <th className="text-lg">{no}</th>
+      <td className="text-lg">{category}</td>
+      <td className="text-lg whitespace-normal">{location}</td>
+      <td className="text-lg">{createdAt.slice(0, 10)}</td>
+      <td className="text-lg">{id}</td>
       <td>
         <EditModal
           key={id}

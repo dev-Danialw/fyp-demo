@@ -9,6 +9,7 @@ import Reports from "./pages/Reports";
 import Inprogress from "./pages/Inprogress";
 import Solved from "./pages/Solved";
 import Discarded from "./pages/Discarded";
+import NotSatisfied from "./pages/NotSatisfied";
 
 import { useAuthContext } from "./hooks/useAuthContext";
 import { useLogout } from "./hooks/useLogout";
@@ -74,8 +75,16 @@ function App() {
               Solved
             </Link>
             <Link to="/discarded" className="btn btn-ghost normal-case text-xl">
-              Discarded
+              Dismissed
             </Link>
+            {user && user.uid === import.meta.env.VITE_REACT_ADMIN && (
+              <Link
+                to="/notsatisfied"
+                className="btn btn-ghost normal-case text-xl"
+              >
+                Not Satisfied
+              </Link>
+            )}
           </div>
           {/* Nav */}
 
@@ -110,6 +119,13 @@ function App() {
               path="/discarded"
               element={user ? <Discarded /> : <Navigate to="/login" />}
             />
+            {user && user.uid === import.meta.env.VITE_REACT_ADMIN && (
+              <Route
+                exact
+                path="/notsatisfied"
+                element={user ? <NotSatisfied /> : <Navigate to="/login" />}
+              />
+            )}
 
             <Route
               exact

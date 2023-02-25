@@ -98,12 +98,12 @@ function Details({ detail, id, status, remarks, no }) {
   const { category, location, createdAt } = detail;
 
   return (
-    <tr>
-      <th>{no}</th>
-      <td>{category}</td>
-      <td>{location}</td>
-      <td>{createdAt.slice(0, 10)}</td>
-      <td>{id}</td>
+    <tr className="">
+      <th className="text-lg">{no}</th>
+      <td className="text-lg">{category}</td>
+      <td className="text-lg whitespace-normal">{location}</td>
+      <td className="text-lg">{createdAt.slice(0, 10)}</td>
+      <td className="text-lg">{id}</td>
       <td>
         <EditModal
           key={id}

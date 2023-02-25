@@ -72,6 +72,7 @@ const Solved = () => {
                       id={doc.id}
                       status={doc.status}
                       remarks={doc.remarks}
+                      feedback={doc.feedback}
                       no={index}
                     />
                   ))
@@ -99,11 +100,11 @@ function Details({ detail, id, status, remarks, feedback, no }) {
 
   return (
     <tr>
-      <th>{no}</th>
-      <td>{category}</td>
-      <td>{location}</td>
-      <td>{createdAt.slice(0, 10)}</td>
-      <td>{id}</td>
+      <th className="text-lg">{no}</th>
+      <td className="text-lg">{category}</td>
+      <td className="text-lg whitespace-normal">{location}</td>
+      <td className="text-lg">{createdAt.slice(0, 10)}</td>
+      <td className="text-lg">{id}</td>
 
       <td>
         <EditModal

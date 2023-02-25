@@ -3,13 +3,12 @@ import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBRezRneL8wVmNNKRqhvKlB35QXFS_X4so",
-  authDomain: "anti-norcotics.firebaseapp.com",
-  projectId: "anti-norcotics",
-  storageBucket: "anti-norcotics.appspot.com",
-  messagingSenderId: "764751912959",
-  appId: "1:764751912959:web:44d31756ce0c72455611ca",
-  measurementId: "G-LW2SCL1VEQ",
+  apiKey: import.meta.env.VITE_REACT_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_REACT_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_REACT_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_REACT_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_REACT_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_REACT_FIREBASE_APP_ID,
 };
 
 // firebase
